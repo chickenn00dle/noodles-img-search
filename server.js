@@ -5,11 +5,11 @@ const app = express();
 
 const port = process.env.PORT;
 
+
 app.get('/:search', (req, res) => {
   let search = req.params,
       query = req.query;
-  console.log(search); 
-  console.log(query);
+  
 });
 
 app.listen(port);
