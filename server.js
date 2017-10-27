@@ -11,24 +11,18 @@ app.get('/:search', (req, res) => {
   const key = process.env.KEY;
   let search = req.params.search,
       query = req.query,
-      url = 'https://www.google.com/searchtbm=isch';
+      url = 'https://www.google.com/search?tbm=isch';
   
-  // console.log(query);
   
   search = search.replace(/\s/gi, '+');
-  
-  if (query.offset) {
-    url += '&num=' + query.offset;
-  }
-  
   url += '&q=' + search;
   
   
   
-  // request(url, (err, res) => {
-  //   if (err) throw err;
-  //   // console.log(res.body);
-  // })
+  request(url, (err, res) => {
+    if (err) throw err;
+    console.log(res.body);
+  })
   
 });
 
