@@ -2,9 +2,9 @@
   "//1": "describes your app and its dependencies",
   "//2": "https://docs.npmjs.com/files/package.json",
   "//3": "updating this file will download and update your packages",
-  "name": "mmy-glitch-app,
+  "name": "noodles-img-search",
   "version": "0.0.1",
-  "description": "WWhat am I about?,
+  "description": "Search the web for images and get image info in JSON format.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
