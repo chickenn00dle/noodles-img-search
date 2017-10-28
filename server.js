@@ -1,34 +1,57 @@
 const express = require('express');
 const fs = require('fs');
 const request = require('request');
+const cheerio = require('cheerio');
+
 const app = express();
 
 const port = process.env.PORT;
 
 
 app.get('/:search', (req, res) => {
-  const engineID = process.env.SEARCH_ENGINE_ID;
-  const key = process.env.KEY;
-  let search = req.params.search,
-      query = req.query,
-      url = 'https://www.google.com/search?tbm=isch';
+  if (req.query != 'favicon.ico') {
   
+    let response = [],
+        offset = req.query,
+        search = req.params.search,
+        url = 'https://www.google.com/search?tbm=isch',
+        params;
   
-  search = search.replace(/\s/gi, '+');
-  url += '&q=' + search;
+    params = '&q=' + search.replace(/\s/gi, '+');
   
+    if (offset.offset) {
+      offset = offset.offset;
+      params += '&num=' + offset;
+    } else {
+      offset = 100;
+    }
   
-  
-  request(url, (err, res) => {
-    if (err) throw err;
-    console.log(res.body);
-  })
-  
+    url += params;
+    
+    request(url, (err, res, data) => {
+      if (err) throw err;
+      const $ = cheerio.load(data); 
+      let results = $('.images_table tr td a img');
+      
+      
+      for (let i = 0; i < offset; i++) {
+        let json = {
+          'url': '',
+          'snippet': '',
+          'thumbnail': ''
+        };
+        
+        console.log(results[i].parent);
+      
+        let imgURL = results[i].parent.attribs.href;
+        imgURL = imgURL.replace(/^.*(http.*?)&.*/gi, '$1');
+        json.url = imgURL;
+        response.push(json);
+      };
+    
+    });
+  }
 });
 
 app.listen(port);
-
-// https://www.google.com/searchtbm=isch
-
-//  https://noodles-img-search.glitch.me/cat%20fails?offset=10
 
