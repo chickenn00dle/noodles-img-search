@@ -9,7 +9,7 @@ const port = process.env.PORT;
 
 
 app.get('/:search', (req, res) => {
-  if (req.query != 'favicon.ico') {
+  if (req.params.search != 'favicon.ico') {
   
     let response = [],
         offset = req.query,
@@ -21,18 +21,17 @@ app.get('/:search', (req, res) => {
   
     if (offset.offset) {
       offset = offset.offset;
-      params += '&num=' + offset;
     } else {
-      offset = 100;
+      offset = 20;
     }
-  
+    
+    params += '&num=' + offset;
     url += params;
     
     request(url, (err, res, data) => {
       if (err) throw err;
       const $ = cheerio.load(data); 
-      let results = $('.images_table tr td a img');
-      
+      let results = $('.images_table tr td')
       
       for (let i = 0; i < offset; i++) {
         let json = {
@@ -41,14 +40,13 @@ app.get('/:search', (req, res) => {
           'thumbnail': ''
         };
         
-        console.log(results[i].parent);
+        console.log(i + 1);
+        console.log(results[i].children);
+        console.log(' ');
+        
+      }
       
-        let imgURL = results[i].parent.attribs.href;
-        imgURL = imgURL.replace(/^.*(http.*?)&.*/gi, '$1');
-        json.url = imgURL;
-        response.push(json);
-      };
-    
+
     });
   }
 });
