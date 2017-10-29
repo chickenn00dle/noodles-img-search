@@ -28,10 +28,12 @@ app.get('/:search', (req, res) => {
     params += '&num=' + offset;
     url += params;
     
-    request(url, (err, res, data) => {
+    request(url, (err, res, doc) => {
       if (err) throw err;
-      const $ = cheerio.load(data); 
-      let results = $('.images_table tr td')
+      const $ = cheerio.load(doc); 
+      let anchor = $('.images_table tr td a');
+      let img = $('.images_table tr td a img');
+      let snippet = $('.images_table tr td br');
       
       for (let i = 0; i < offset; i++) {
         let json = {
@@ -40,9 +42,13 @@ app.get('/:search', (req, res) => {
           'thumbnail': ''
         };
         
-        console.log(i + 1);
-        console.log(results[i].children);
-        console.log(' ');
+        json.url = anchor[i].attribs.href.replace(/^.*(http.*?)&.*/, '$1');
+        json.thumbnail = img[i].attribs.src;
+        
+        console.log(snippet[i]);
+        console.log('=====================\n\n');
+        
+        
         
       }
       
