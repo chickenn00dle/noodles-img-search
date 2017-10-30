@@ -35,8 +35,6 @@ app.get('/search/:search', (req, res) => {
       let results = $('.images_table tr td');
       let response = [];
       
-      console.log(doc);
-      
       for (let i = 0; i < offset; i++) {
         let json = {
           'url': '',
@@ -57,7 +55,7 @@ app.get('/search/:search', (req, res) => {
         
         response.push(json);
         
-        // console.log($('.images_table').children().first().text());
+        console.log($('.images_table').children().text());
         
         
       }
