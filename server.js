@@ -35,47 +35,34 @@ app.get('/search/:search', (req, res) => {
       let results = $('.images_table tr td');
       let response = [];
       
+      console.log(doc);
+      
       for (let i = 0; i < offset; i++) {
         let json = {
           'url': '',
           'snippet': '',
           'thumbnail': ''
         };
-        
-        console.log('0: ');
-        console.log(results[i].children[0]);
-        console.log('==================');
-        console.log('1: ');
-        console.log(results[i].children[1]);
-        console.log('==================');
-        console.log('2: ');
-        console.log(results[i].children[2]);
-        console.log('==================');
-        console.log('3: ');
-        console.log(results[i].children[3]);
-        console.log('==================');
-        console.log('4: ');
-        console.log(results[i].children[4]);
-        console.log('==================');
-        console.log('5: ');
-        console.log(results[i].children[5]);
-        console.log('==================');
-        console.log('6: ');
-        console.log(results[i].children[6]);
-        console.log('==================');
-        console.log('7: ');
-        console.log(results[i].children[7]);
-        console.log('==================');
-        console.log('NEXT RESULT \n');
 
         
-        json.url = results[0].attribs.href.replace(/^.*(http.*?)&.*/, '$1');
-        json
+        json.url = results[i].children[0].attribs.href.replace(/^.*(http.*?)&.*/, '$1');
+        if (results[i].children[4].data) {
+          json.snippet = results[i].children[4].data;
+        } else if (results[i].children[5].data) {
+          json.snippet = results[i].children[5].data;
+        } else {
+          json.snippet = 'not available';
+        }
+        json.thumbnail = results[i].children[0].children[0].attribs.src;
+        
+        response.push(json);
+        
+        // console.log($('.images_table').children().first().text());
         
         
       }
       
-      // res.end(JSON.stringify(response, null, 3));
+      res.end(JSON.stringify(response, null, 3));
 
     });
 });
