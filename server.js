@@ -8,12 +8,12 @@ const app = express();
 const port = process.env.PORT;
 
 app.get('/', (req, res) => {
+  res.writeHead(301, {
+    Location: 'https://noodles-img-search.glitch.me/search/lolcats%20funny?offset=10'
+  });
   
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.redirect('')
-  
+  res.end();
 });
-
 
 app.get('/search/:search', (req, res) => {
     
@@ -55,7 +55,6 @@ app.get('/search/:search', (req, res) => {
         
         response.push(json);
       });
-     
       
       res.end(JSON.stringify(response, null, 3));
 
