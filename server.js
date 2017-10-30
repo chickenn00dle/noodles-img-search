@@ -10,6 +10,8 @@ const port = process.env.PORT;
 
 app.get('/:search', (req, res) => {
   if (req.params.search != 'favicon.ico') {
+    
+    res.writeHead(200, { 'Content-Type': 'application/json' });
   
     let response = [],
         offset = req.query,
@@ -28,12 +30,11 @@ app.get('/:search', (req, res) => {
     params += '&num=' + offset;
     url += params;
     
-    request(url, (err, res, doc) => {
+    request(url, (err, data, doc) => {
       if (err) throw err;
       const $ = cheerio.load(doc); 
-      let anchor = $('.images_table tr td a');
-      let img = $('.images_table tr td a img');
-      let snippet = $('.images_table tr td br');
+      let results = $('.images_table tr td');
+      let response = [];
       
       for (let i = 0; i < offset; i++) {
         let json = {
@@ -42,16 +43,39 @@ app.get('/:search', (req, res) => {
           'thumbnail': ''
         };
         
-        json.url = anchor[i].attribs.href.replace(/^.*(http.*?)&.*/, '$1');
-        json.thumbnail = img[i].attribs.src;
+        console.log('0: ');
+        console.log(results[i].children[0]);
+        console.log('==================');
+        console.log('1: ');
+        console.log(results[i].children[1]);
+        console.log('==================');
+        console.log('2: ');
+        console.log(results[i].children[2]);
+        console.log('==================');
+        console.log('3: ');
+        console.log(results[i].children[3]);
+        console.log('==================');
+        console.log('4: ');
+        console.log(results[i].children[4]);
+        console.log('==================');
+        console.log('5: ');
+        console.log(results[i].children[5]);
+        console.log('==================');
+        console.log('6: ');
+        console.log(results[i].children[6]);
+        console.log('==================');
+        console.log('7: ');
+        console.log(results[i].children[7]);
+        console.log('==================');
+        console.log(' ');
+
         
-        console.log(snippet[i]);
-        console.log('=====================\n\n');
-        
+        // .replace(/^.*(http.*?)&.*/, '$1')
         
         
       }
       
+      // res.end(JSON.stringify(response, null, 3));
 
     });
   }
