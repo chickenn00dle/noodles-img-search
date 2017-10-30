@@ -7,6 +7,13 @@ const app = express();
 
 const port = process.env.PORT;
 
+app.get('/', (req, res) => {
+  
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.redirect('')
+  
+});
+
 
 app.get('/search/:search', (req, res) => {
     
@@ -35,34 +42,20 @@ app.get('/search/:search', (req, res) => {
       let results = $('.images_table tr td');
       let response = [];
       
-      $('.images_table tr').each(function(){
-        console.log($(this).children().children().text());
-      });
-      
-      
-      for (let i = 0; i < offset; i++) {
+      $('.images_table tr td').each(function(){
         let json = {
           'url': '',
           'snippet': '',
           'thumbnail': ''
         };
-
         
-        json.url = results[i].children[0].attribs.href.replace(/^.*(http.*?)&.*/, '$1');
-        if (results[i].children[4].data) {
-          json.snippet = results[i].children[4].data;
-        } else if (results[i].children[5].data) {
-          json.snippet = results[i].children[5].data;
-        } else {
-          json.snippet = 'not available';
-        }
-        json.thumbnail = results[i].children[0].children[0].attribs.src;
+        json.url = $(this).children().first().attr().href.replace(/^.*?(http.*?)&.*/gi, '$1');
+        json.snippet = $(this).contents().text().replace(/^(.*?)[0-9].*/gi, '$1');
+        json.thumbnail = $(this).children().first().children().first().attr().src;
         
         response.push(json);
-        
-        
-        
-      }
+      });
+     
       
       res.end(JSON.stringify(response, null, 3));
 
