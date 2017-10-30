@@ -8,8 +8,7 @@ const app = express();
 const port = process.env.PORT;
 
 
-app.get('/:search', (req, res) => {
-  if (req.params.search != 'favicon.ico') {
+app.get('/search/:search', (req, res) => {
     
     res.writeHead(200, { 'Content-Type': 'application/json' });
   
@@ -67,10 +66,11 @@ app.get('/:search', (req, res) => {
         console.log('7: ');
         console.log(results[i].children[7]);
         console.log('==================');
-        console.log(' ');
+        console.log('NEXT RESULT \n');
 
         
-        // .replace(/^.*(http.*?)&.*/, '$1')
+        json.url = results[0].attribs.href.replace(/^.*(http.*?)&.*/, '$1');
+        json
         
         
       }
@@ -78,7 +78,6 @@ app.get('/:search', (req, res) => {
       // res.end(JSON.stringify(response, null, 3));
 
     });
-  }
 });
 
 app.listen(port);
