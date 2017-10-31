@@ -25,7 +25,7 @@ app.get('/search/:search', (req, res) => {
         url = 'https://www.google.com/search?tbm=isch',
         params;
   
-    addEntry(process.ENV.DBURL, {});
+    addEntry(process.env.DBURL, search);
   
     params = '&q=' + search.replace(/\s/gi, '+');
   
@@ -63,11 +63,18 @@ app.get('/search/:search', (req, res) => {
     });
 });
 
-function addEntry(dbUrl, json) {
+function addEntry(dbUrl, term) {
   MongoClient.connect(dbUrl, (err, db) => {
     if (err) throw err;
     
-    console.log('Connected to Database');
+    const collection = db.collection('glitch-projects');
+    
+    collection.insert({
+      'term': term,
+      'when': new Date("<YYYY-mm-ddTHH:MM:ssZ>")
+    });
+    
+    'ins'
   });
 }
 
