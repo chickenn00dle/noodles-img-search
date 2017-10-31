@@ -63,6 +63,22 @@ app.get('/search/:search', (req, res) => {
     });
 });
 
+app.get('/recent/', (req, res) => {
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  
+  MongoClient.connect(process.env.DBURL, (err, db) => {
+    if (err) throw err;
+    
+    const collection = db.collection('img-search');
+    
+    let cursor = collection.find().toArray((err, result) => {
+      res.end(result);
+      db.close();
+    });  
+  });
+  
+});
+
 function addEntry(dbUrl, term) {
   MongoClient.connect(dbUrl, (err, db) => {
     if (err) throw err;
@@ -83,6 +99,7 @@ function addEntry(dbUrl, term) {
     });  
   });
 }
+
 
 app.listen(port);
 
