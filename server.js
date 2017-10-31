@@ -67,14 +67,23 @@ function addEntry(dbUrl, term) {
   MongoClient.connect(dbUrl, (err, db) => {
     if (err) throw err;
     
-    const collection = db.collection('glitch-projects');
+    const collection = db.collection('img-search');
     
-    collection.insert({
-      'term': term,
-      'when': new Date("<YYYY-mm-ddTHH:MM:ssZ>")
-    });
+    let cursor = collection.find({
+      'term': term
+    }).limit(1).toArray();
     
-    'ins'
+    if (cursor.length == 0) {
+      collection.insert({
+        'term': term,
+        'when': new Date("<YYYY-mm-ddTHH:MM:ssZ>")
+      });
+      console.log('insertion complete');
+    } else {
+      console.log('Term exists in database');
+    }
+    
+    db.close();
   });
 }
 
