@@ -1,10 +1,9 @@
 {
-  "//1": "describes your app and its dependencies",
-  "//2": "https://docs.npmjs.com/files/package.json",
-  "//3": "updating this file will download and update your packages",
+  "//1": "A basic image search app that scrapes data from google image search",
+  "//2": "https://noodles-img-search.glitch.me",
   "name": "noodles-img-search",
   "version": "0.0.1",
-  "description": "Search the web for images and get image info in JSON format.",
+  "description": "A basic image search app that scrapes data from google image search and returns image data info in JSON format.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -20,7 +19,7 @@
     "node": "8.x"
   },
   "repository": {
-    "url": "https://github.io/chickenn00dle/noodles-img-search"
+    "url": "https://github.io/chickenn00dle/noodles-img-search.git"
   },
   "license": "MIT",
   "keywords": [
