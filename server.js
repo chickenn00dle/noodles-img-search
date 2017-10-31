@@ -1,5 +1,5 @@
 const express = require('express');
-const fs = require('fs');
+const MongoClient = require('mongodb').MongoClient;
 const request = require('request');
 const cheerio = require('cheerio');
 
@@ -24,6 +24,8 @@ app.get('/search/:search', (req, res) => {
         search = req.params.search,
         url = 'https://www.google.com/search?tbm=isch',
         params;
+  
+    addEntry(process.ENV.DBURL, {});
   
     params = '&q=' + search.replace(/\s/gi, '+');
   
@@ -60,6 +62,14 @@ app.get('/search/:search', (req, res) => {
 
     });
 });
+
+function addEntry(dbUrl, json) {
+  MongoClient.connect(dbUrl, (err, db) => {
+    if (err) throw err;
+    
+    console.log('Connected to Database');
+  });
+}
 
 app.listen(port);
 
