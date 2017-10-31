@@ -2,9 +2,13 @@
 
 Replace the URL params with your own search query and behold! Your images, or rather their urls and other such data, will appear in JSON format.
 
-For example, to perform a search on Bruce Lee 
+For example, to perform a search on Bruce Lee, limiting your results to 5 entries use the following url:
 
-https://noodles-img-search.glitch.me/bruce%20lee?offset=20
+https://noodles-img-search.glitch.me/search/bruce%20lee?offset=5
+
+You can find a list of previous search terms in JSON format with the following url:
+
+https://noodles-img-search.glitch.me/recent/
 
 IMPORTANT!
 
