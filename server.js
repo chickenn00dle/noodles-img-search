@@ -62,7 +62,7 @@ app.get('/search/:search', (req, res) => {
         response.push(json); // Push individual result to response array
       });
       
-      res.end(JSON.stringify(response, null, 3)); // End response with 
+      res.end(JSON.stringify(response, null, 3)); // End response with response arr
 
     });
 });
@@ -70,22 +70,25 @@ app.get('/search/:search', (req, res) => {
 app.get('/recent/', (req, res) => {
   res.writeHead(200, { 'Content-Type': 'application/json' });
   
+  // Connect to db
   MongoClient.connect(process.env.DBURL, (err, db) => {
     if (err) throw err;
     
     const collection = db.collection('img-search');
     
+    // find all entries
     let cursor = collection.find().project({
       'term': 1,
       'when': 1,
       '_id': 0
     }).toArray((err, result) => {
-      res.end(JSON.stringify(result, null, 3));
+      res.end(JSON.stringify(result, null, 3)); // add all entries to response
       db.close();
     });  
   });
 });
 
+// Connect to db, check for term, and insert if not present
 function addEntry(dbUrl, term) {
   MongoClient.connect(dbUrl, (err, db) => {
     if (err) throw err;
