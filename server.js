@@ -71,19 +71,16 @@ function addEntry(dbUrl, term) {
     
     let cursor = collection.find({
       'term': term
-    }).limit(1).toArray();
+    }).limit(1).toArray((err, result) => {
+      if (result.length == 0) {
+        collection.insert({
+          'term': term,
+          'when': new Date()
+        });
+      }
     
-    if (cursor.length == 0) {
-      collection.insert({
-        'term': term,
-        'when': new Date("<YYYY-mm-ddTHH:MM:ssZ>")
-      });
-      console.log('insertion complete');
-    } else {
-      console.log('Term exists in database');
-    }
-    
-    db.close();
+      db.close();
+    });  
   });
 }
 
